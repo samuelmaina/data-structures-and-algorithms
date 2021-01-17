@@ -1,6 +1,6 @@
 const binarySearch = require("./binarySearch");
 
-const TRIALS = 3;
+const TRIALS = 20;
 describe("Binary Search", () => {
   it("should throw on empty array", () => {
     expect(() => {
@@ -10,80 +10,59 @@ describe("Binary Search", () => {
   describe("Searching", () => {
     describe("Numeric search", () => {
       let array = [];
-      const unfound = -1;
+
       beforeAll(() => {
         for (let i = 0; i < TRIALS; i++) {
           array.push(i);
         }
       });
-
-      it("returns index when key is present", () => {
-        const firstIndex = 0;
-        const lastIndex = TRIALS - 1;
-        const middleIndex = Math.floor(
-          firstIndex + (lastIndex - firstIndex) / 2
-        );
-        let firstElement = array[firstIndex];
-        let lastElement = array[lastIndex];
-        let middleElement = array[middleIndex];
-
-        expect(binarySearch(array, firstElement)).toBe(firstIndex);
-        // expect(binarySearch(array, lastElement)).toBe(lastIndex);
-        expect(binarySearch(array, middleElement)).toBe(middleIndex);
-      });
-      it("returns -1 when key is absent", () => {
-        let searchKey = 2 * TRIALS;
-        expect(binarySearch(array, searchKey)).toBe(unfound);
-      });
+      runFindTests(array);
+      //the value of TRIAL will not be in the array.
+      //since we are creating values for index 0
+      //to TRiAL -1
+      runUnfoundTest(array, TRIALS);
     });
     describe("String search", () => {
-      const unfound = -1;
-      const array = [];
-      beforeAll(() => {
-        for (let i = 0; i < TRIALS; i++) {
-          array.push(`s${i}`);
-        }
-      });
-
-      it("returns index when key is present", () => {
-        const firstIndex = 0;
-        const lastIndex = TRIALS - 1;
-        const middleIndex = Math.floor(
-          firstIndex + (lastIndex - firstIndex) / 2
-        );
-        let firstElement = array[firstIndex];
-        let lastElement = array[lastIndex];
-        let middleElement = array[middleIndex];
-
-        expect(binarySearch(array, firstElement)).toBe(firstIndex);
-        expect(binarySearch(array, lastElement)).toBe(lastIndex);
-        expect(binarySearch(array, middleElement)).toBe(middleIndex);
-      });
-      it("returns -1 when key is absent", () => {
-        let searchKey = `s${2 * TRIALS}`;
-        expect(binarySearch(array, searchKey)).toBe(unfound);
-      });
+      const array = [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+      ];
+      runFindTests(array);
+      runUnfoundTest(array, "p");
     });
   });
 });
 
-// function searchTest(array) {
-//   const unfound = -1;
-//   const arrayLength = array.length;
-//   it("returns index when key is present", () => {
-//     const firstIndex = 0;
-//     const lastIndex = arrayLength - 1;
-//     const middleIndex = Math.floor(firstIndex + (lastIndex - firstIndex) / 2);
-//     let firstElement = array[firstIndex];
-//     let lastElement = array[lastIndex];
-//     let middleElement = array[middleIndex];
+function runFindTests(array) {
+  it("returns index when key is present", () => {
+    const arrLength = array.length;
+    const firstIndex = 0;
+    const lastIndex = arrLength - 1;
+    const middleIndex = Math.floor(firstIndex + (lastIndex - firstIndex) / 2);
+    let firstElement = array[firstIndex];
+    let lastElement = array[lastIndex];
+    let middleElement = array[middleIndex];
 
-//     expect(binarySearch(array, firstElement)).toBe(firstIndex);
-//     expect(binarySearch(array, lastElement)).toBe(lastIndex);
-//     expect(binarySearch(array, middleElement)).toBe(middleIndex);
-//   });
-//   it("returns -1 when key is absent", () => {
-//     let searchKey = 2 * arrayLength;
-//     expect(binarySearch(array, searchKey)).toBe(unfound);
-//   });
-// }
+    expect(binarySearch(array, firstElement)).toBe(firstIndex);
+    expect(binarySearch(array, middleElement)).toBe(middleIndex);
+    expect(binarySearch(array, lastElement)).toBe(lastIndex);
+  });
+}
+function runUnfoundTest(array, key) {
+  const unfound = -1;
+  it("should return -1 when the value is not in the array.", () => {
+    expect(binarySearch(array, key)).toBe(unfound);
+  });
+}

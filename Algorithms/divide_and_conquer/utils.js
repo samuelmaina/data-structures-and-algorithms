@@ -1,45 +1,16 @@
 exports.sortTest = func => {
   describe("numerical sorting", () => {
-    let nonRepeating;
-    let repeating;
-    beforeAll(() => {
-      nonRepeating = [10, 99, 45, 22, 23, 25];
-      repeating = [12, 30, 4, 78, 44, 12, 44];
-    });
-    describe("ascending", () => {
-      const ascendingOrder = (a, b) => {
-        return a < b;
-      };
-      it("should sort for  non repeating elements ", () => {
-        const sorted = func(nonRepeating, ascendingOrder);
-        ensureSortedInAscendingOrder(sorted);
-      });
-      it("should sort for  repeating elements", () => {
-        const sorted = func(repeating, ascendingOrder);
-        ensureSortedInAscendingOrder(sorted);
-      });
-    });
-    describe("descending", () => {
-      const descendingOrder = (a, b) => {
-        return a > b;
-      };
-      it("should sort for  non repeating elements ", () => {
-        const sorted = func(nonRepeating, descendingOrder);
-        ensureSortedInDescendingOrder(sorted);
-      });
-      it("should sort for  repeating elements", () => {
-        const sorted = func(repeating, descendingOrder);
-        ensureSortedInDescendingOrder(sorted);
-      });
-    });
+    let nonRepeating = [10, 99, 45, 22, 23, 25];
+    let repeating = [12, 30, 4, 78, 44, 12, 44];
+    runTests(nonRepeating, repeating);
   });
+
   describe("string sorting", () => {
-    let nonRepeating;
-    let repeating;
-    beforeAll(() => {
-      nonRepeating = ["s9", "s2", "s4", "s1", "s20", "s3"];
-      repeating = ["s1", "s2", "s4", "s1", "s20", "s2"];
-    });
+    let nonRepeating = ["s9", "s2", "s4", "s1", "s20", "s3"];
+    let repeating = ["s1", "s2", "s4", "s1", "s20", "s2"];
+    runTests(nonRepeating, repeating);
+  });
+  function runTests(nonRepeating, repeating) {
     describe("ascending", () => {
       const ascendingOrder = (a, b) => {
         return a < b;
@@ -66,7 +37,7 @@ exports.sortTest = func => {
         ensureSortedInDescendingOrder(sorted);
       });
     });
-  });
+  }
 };
 
 function ensureSortedInAscendingOrder(array) {

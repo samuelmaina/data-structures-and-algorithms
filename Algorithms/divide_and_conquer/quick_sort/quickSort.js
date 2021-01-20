@@ -1,43 +1,38 @@
-const {calculateMidpoint} = require("../../utils");
-
-function quickSort(comparer) {
-  const arrayLength = array.length;
-  return quickSortHelper(array, 0, arrayLength - 1, comparer);
-}
-
-function quickSortHelper(array, left, right, comparer) {
-  let index;
-  const arrayLength = array.length;
-  if (arrayLength > 1) {
-    index = partition(array, left, right);
-  }
-  const indexMinus1 = index - 1;
-  if (left < indexMinus1) {
-    quickSortHelper(array, left, indexMinus1);
-  }
-  if (index < right) {
-    quickSortHelper(array, index, right);
-  }
+function quickSort(array, comparer) {
+  const start = 0;
+  const end = array.length - 1;
+  quickSortHelper(array, start, end);
+  //return the modified version of array.
   return array;
-}
-function partition(array, left, right) {
-  const midpoint = calculateMidpoint(left, right);
-  const pivot = array[midpoint];
 
-  const leftElement = array[left];
-  const rightElement = array[right];
-  while (pivot > leftElement) {
-    left++;
+  function quickSortHelper(arr, start, end) {
+    // Base case or terminating case
+    if (start >= end) {
+      return;
+    }
+
+    // Returns pivotIndex
+    let index = partition(arr, start, end);
+
+    // Recursively apply the same logic to the left and right subarrays
+    quickSortHelper(arr, start, index - 1);
+    quickSortHelper(arr, index + 1, end);
   }
-  while (pivot < rightElement) {
-    right--;
-  }
-  if (left <= right) {
-    let temp = leftElement;
-    leftElement = rightElement;
-    rightElement = temp;
-    left++;
-    right--;
+
+  function partition(arr, start, end) {
+    // Taking the last element as the pivot
+    const pivotValue = arr[end];
+    let pivotIndex = start;
+    for (let i = start; i < end; i++) {
+      if (comparer(arr[i], pivotValue)) {
+        [arr[i], arr[pivotIndex]] = [arr[pivotIndex], arr[i]];
+        pivotIndex++;
+      }
+    }
+
+    // Putting the pivot value in the middle
+    [arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]];
+    return pivotIndex;
   }
 }
 

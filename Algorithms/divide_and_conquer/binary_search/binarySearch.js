@@ -1,4 +1,4 @@
-const {calculateMidpoint} = require("../../utils");
+const {calculateMidpoint} = require("../../../utils");
 
 function binarySearch(array, searchKey) {
   if (!(Array.isArray(array) && array.length > 0))
@@ -12,7 +12,7 @@ function binarySearch(array, searchKey) {
     mid = calculateMidpoint(start, end);
     midValue = array[mid];
     if (searchKey === midValue) return mid;
-    if (searchKey < midValue) end = mid;
+    if (searchKey < midValue) end = mid - 1;
     if (searchKey > midValue) start = mid + 1;
   }
   return -1;

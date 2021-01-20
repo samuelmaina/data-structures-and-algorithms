@@ -15,27 +15,33 @@ exports.sortTest = func => {
       const ascendingOrder = (a, b) => {
         return a < b;
       };
-      it("should sort for  non repeating elements ", () => {
-        const sorted = func(nonRepeating, ascendingOrder);
-        ensureSortedInAscendingOrder(sorted);
-      });
-      it("should sort for  repeating elements", () => {
-        const sorted = func(repeating, ascendingOrder);
-        ensureSortedInAscendingOrder(sorted);
-      });
+      runner(
+        ascendingOrder,
+        nonRepeating,
+        repeating,
+        ensureSortedInAscendingOrder
+      );
     });
     describe("descending", () => {
       const descendingOrder = (a, b) => {
         return a > b;
       };
-      it("should sort for  non repeating elements ", () => {
-        const sorted = func(nonRepeating, descendingOrder);
-        ensureSortedInDescendingOrder(sorted);
-      });
-      it("should sort for  repeating elements", () => {
-        const sorted = func(repeating, descendingOrder);
-        ensureSortedInDescendingOrder(sorted);
-      });
+      runner(
+        descendingOrder,
+        nonRepeating,
+        repeating,
+        ensureSortedInDescendingOrder
+      );
+    });
+  }
+  function runner(orderFunc, nonRepeating, repeating, validatingFunc) {
+    it("should sort for  non repeating elements ", () => {
+      const sorted = func(nonRepeating, orderFunc);
+      validatingFunc(sorted);
+    });
+    it("should sort for  repeating elements", () => {
+      const sorted = func(repeating, orderFunc);
+      validatingFunc(sorted);
     });
   }
 };

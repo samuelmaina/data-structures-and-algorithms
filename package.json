@@ -1,0 +1,24 @@
+{
+  "name": "datastructuresandalgorithms",
+  "version": "1.0.0",
+  "description": "a module containining all common algorithm design and algorithms and data structures",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand --verbose"
+  },
+  "keywords": [
+    "Algorithms",
+    "and",
+    "data",
+    "strucures"
+  ],
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules"
+    ]
+  },
+  "author": "Samuel Maina",
+  "license": "MIT",
+  "dependencies": {}
+}

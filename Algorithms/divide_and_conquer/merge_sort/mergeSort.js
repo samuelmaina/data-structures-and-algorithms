@@ -11,7 +11,7 @@ function mergeSort(array, comparer) {
 
     let midpoint = Math.floor(arrayLength / 2),
       leftArray = array.slice(0, midpoint),
-      rightArray = array.slice(midpoint, arrayLength);
+      rightArray = array.slice(midpoint);
 
     return mergeArrays(mergeSortHelper(leftArray), mergeSortHelper(rightArray));
   }

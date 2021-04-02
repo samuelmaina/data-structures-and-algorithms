@@ -1,15 +1,15 @@
 module.exports = (base, int1, int2) => {
   const num1 = parseInt(int1, base);
   const num2 = parseInt(int2, base);
-  //the algorithm will return the answert to base 10
-  //hence need to convert it to the needed base.
-  return convertBase(karatsubaHelper(num1, num2), 10, base);
+  //the algorithm will return the answer in base 10
+  //hence need to convert it to the previous base.
+  const result = karatsubaHelper(num1, num2);
+  return convertBase(result, 10, base);
 
   function karatsubaHelper(int1, int2) {
     const max = getMax(noOfDigitsIn(int1), noOfDigitsIn(int2));
 
     const threshhold = 2 * base;
-
     if (max <= 2 && getMax(int1, int2) <= threshhold) return int1 * int2;
 
     const dividerPower = integerDivision(max, 2);

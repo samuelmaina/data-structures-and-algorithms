@@ -4,7 +4,7 @@
   "description": "a module containining all common algorithm design and algorithms and data structures",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand --verbose"
+    "test": "jest  --verbose"
   },
   "keywords": [
     "Algorithms",

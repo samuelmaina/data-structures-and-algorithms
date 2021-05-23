@@ -1,6 +1,6 @@
 const coefficient = require('./bCoEfficients');
 
-describe('-Binomial Coeffiencts', () => {
+describe.skip('-Binomial Coeffiencts', () => {
 	it('should return 1 when both values are 0', () => {
 		expect(coefficient(0, 0)).toBe(1);
 	});

@@ -1,7 +1,8 @@
 const Node = require('./node');
+const AvlTree = require('./avl');
 
 describe('avl', () => {
-	describe('Node Test', () => {
+	describe('Node Tests', () => {
 		it('should be able to create node', () => {
 			const data = {
 				key: 1,
@@ -117,6 +118,121 @@ describe('avl', () => {
 						node.setParent(parent);
 						expect(node.hasParent()).toBeTruthy();
 					});
+				});
+			});
+		});
+	});
+	describe('Avl Tree', () => {
+		it('should be able to insert', () => {
+			const root = {
+				key: 2,
+				value: 'This is the value that was supposed to be there.',
+			};
+			const left = {
+				key: 1,
+				value: 'This is the left child',
+			};
+			const avlTree = new AvlTree();
+			avlTree.insert(root);
+			avlTree.insert(left);
+			const treeRoot = avlTree.root();
+			ensureNodeHasLeft(treeRoot, left);
+		});
+		describe('Should  rotate', () => {
+			let tree;
+			beforeEach(() => {
+				tree = new AvlTree();
+			});
+			describe('should be able to insert and rotate', () => {
+				const left = {
+					key: 1,
+					value: 'This is the left child',
+				};
+				const root = {
+					key: 2,
+					value: 'This is the value that was supposed to be there.',
+				};
+				const right = {
+					key: 3,
+					value: 'The right value',
+				};
+				it('left rotation', () => {
+					tree.insert(right);
+					tree.insert(root);
+					tree.insert(left);
+
+					const treeRoot = tree.root();
+					ensureNodeHasValues(treeRoot, root);
+					ensureNodeHasChildren(treeRoot, left, right);
+
+					// expect(treeRoot.getHeight()).toBe(1);
+				});
+				it('right rotation', () => {
+					tree.insert(left);
+					tree.insert(root);
+					tree.insert(right);
+
+					const treeRoot = tree.root();
+					ensureNodeHasValues(treeRoot, root);
+					ensureNodeHasChildren(treeRoot, left, right);
+					// expect(treeRoot.getHeight()).toBe(1);
+				});
+				it('left right rotation', () => {
+					tree.insert(right);
+					tree.insert(left);
+					tree.insert(root);
+
+					const treeRoot = tree.root();
+					ensureNodeHasValues(treeRoot, root);
+					ensureNodeHasChildren(treeRoot, left, right);
+
+					// expect(treeRoot.getHeight()).toBe(1);
+				});
+				it('right left rotation', () => {
+					tree.insert(left);
+					tree.insert(right);
+					tree.insert(root);
+					const treeRoot = tree.root();
+					ensureNodeHasValues(treeRoot, root);
+					ensureNodeHasChildren(treeRoot, left, right);
+					// expect(treeRoot.getHeight()).toBe(1);
+				});
+
+				/*
+                      80
+                     /  \
+      (balance = 2) 50  90
+                   /
+                  40
+                 /
+                30
+
+              right-rotation of 50 to ==>
+
+                80
+               /  \
+              40  90
+             /  \
+            30  50
+      */
+
+				it('complex rotation', () => {
+					const eighty = { key: 80, value: 'n1' },
+						fifty = { key: 50, value: 'n2' },
+						ninety = { key: 90, value: 'n3' },
+						fourty = { key: 40, value: 'n4' },
+						thirty = { key: 30, value: 'n5' };
+					tree.insert(eighty);
+					tree.insert(fifty);
+					tree.insert(ninety);
+					tree.insert(fourty);
+					tree.insert(thirty);
+
+					const treeRoot = tree.root();
+					ensureNodeHasValues(treeRoot, eighty);
+					ensureNodeHasChildren(treeRoot, fourty, ninety);
+					ensureNodeHasChildren(treeRoot.getLeft(), thirty, fifty);
+					// expect(treeRoot.getHeight()).toBe(1);
 				});
 			});
 		});

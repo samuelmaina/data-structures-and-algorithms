@@ -1,7 +1,7 @@
 const binarySearch = require('./binarySearch');
 
 const TRIALS = 2000000;
-describe('Binary Search', () => {
+describe.skip('Binary Search', () => {
 	it('should throw on empty array', () => {
 		expect(() => {
 			binarySearch([], 1);

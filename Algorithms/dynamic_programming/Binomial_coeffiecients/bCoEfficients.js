@@ -16,14 +16,18 @@ function binomialCoefficientHelper(n, r) {
 	const nCr = create2DArray(rows, columns);
 	let min;
 
-	for (let i = 0; i < rows; i++) {
-		min = Math.min(i, r);
-		let iMinus1 = i - 1;
-		for (let j = 0; j <= min; j++)
-			if (j === 0 || j === i) nCr[i][j] = 1;
+	for (let row = 0; row < rows; row++) {
+		min = Math.min(row, r);
+		let rowMinus1 = row - 1;
+		let isFirstOrLastColumn;
+		for (let column = 0; column <= min; column++) {
+			isFirstOrLastColumn = column === 0 || column === row;
+			//for both the first and the last column ,the value should be 1
+			if (isFirstOrLastColumn) nCr[row][column] = 1;
 			else {
-				nCr[i][j] = nCr[iMinus1][j - 1] + nCr[iMinus1][j];
+				nCr[row][column] = nCr[rowMinus1][column - 1] + nCr[rowMinus1][column];
 			}
+		}
 	}
 
 	return nCr[n][r];

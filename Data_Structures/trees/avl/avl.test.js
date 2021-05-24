@@ -166,8 +166,7 @@ describe('avl', () => {
 						const treeRoot = tree.root();
 						ensureNodeHasValues(treeRoot, root);
 						ensureNodeHasChildren(treeRoot, left, right);
-
-						// expect(treeRoot.getHeight()).toBe(1);
+						ensureIsBalanced(treeRoot);
 					});
 					it('right rotation', () => {
 						tree.insert(left);
@@ -177,7 +176,6 @@ describe('avl', () => {
 						const treeRoot = tree.root();
 						ensureNodeHasValues(treeRoot, root);
 						ensureNodeHasChildren(treeRoot, left, right);
-						// expect(treeRoot.getHeight()).toBe(1);
 					});
 					it('left right rotation', () => {
 						tree.insert(right);
@@ -234,18 +232,14 @@ describe('avl', () => {
 						ensureNodeHasValues(treeRoot, eighty);
 						ensureNodeHasChildren(treeRoot, fourty, ninety);
 						ensureNodeHasChildren(treeRoot.getLeft(), thirty, fifty);
-						// expect(treeRoot.getHeight()).toBe(1);
+						ensureIsBalanced(treeRoot);
 					});
 				});
 			});
 			describe('min, max, find', () => {
 				const trials = 100000;
 				beforeEach(() => {
-					for (let i = 1; i < trials; i++)
-						tree.insert({
-							key: i,
-							value: `n${i}`,
-						});
+					tree = generateTreeWithKeyUpto(trials);
 				});
 				it('get the node with min key', () => {
 					const min = tree.min();
@@ -254,8 +248,8 @@ describe('avl', () => {
 				it('get the node with max key', () => {
 					const max = tree.max();
 					ensureNodeHasValues(max, {
-						key: trials - 1,
-						value: `n${trials - 1}`,
+						key: trials,
+						value: `n${trials}`,
 					});
 				});
 				describe('Finds a node with a given key', () => {
@@ -267,7 +261,7 @@ describe('avl', () => {
 						});
 					});
 					it('the last', () => {
-						const last = trials - 1;
+						const last = trials;
 						ensureNodeHasValues(tree.find(last), {
 							key: last,
 							value: `n${last}`,
@@ -280,6 +274,62 @@ describe('avl', () => {
 							value: `n${mid}`,
 						});
 					});
+					it('returns null if the value is not in the tree', () => {
+						//trial +1  and 0 keys are not in the tree.
+						expect(tree.find(trials + 1)).toBeNull();
+						expect(tree.find(0)).toBeNull();
+					});
+				});
+			});
+			describe('Should remove a node from the tree and balance it', () => {
+				const trials = 100000;
+				beforeEach(() => {
+					tree = generateTreeWithKeyUpto(trials);
+				});
+				it('a node with both the right and the left child.', () => {
+					//the key trial/4 will have a right and a left child
+					const midValue = Math.ceil(trials / 4);
+					removeAndEnsureNodeDoesNotExistAndTreeBalanced(tree, midValue);
+				});
+				it('a leaf', () => {
+					//key 1 is a leaf
+					removeAndEnsureNodeDoesNotExistAndTreeBalanced(tree, 1);
+				});
+			});
+			describe('Traversal', () => {
+				const trials = 7;
+				beforeEach(() => {
+					tree = generateTreeWithKeyUpto(trials);
+				});
+				it('in Order', () => {
+					const results = [];
+					const cb = node => {
+						results.push(node.key);
+					};
+					tree.traverseInOrder(cb);
+					for (let i = 1; i < trials; i++) {
+						//read i-1 th value since the array index start at 0 while
+						//the read values start at 1
+						expect(results[i - 1]).toBe(i);
+					}
+				});
+				it('Pre Order', () => {
+					const results = [];
+					const cb = node => {
+						results.push(node.key);
+					};
+					tree.traversePreOrder(cb);
+					const expected = [4, 2, 1, 3, 6, 5, 7];
+					expect(results).toEqual(expected);
+				});
+				it('Post Order', () => {
+					const results = [];
+					const cb = node => {
+						results.push(node.key);
+					};
+					tree.traversePostOrder(cb);
+					const expected = [1, 3, 2, 5, 7, 6, 4];
+					expect(results).toEqual(expected);
 				});
 			});
 		});
@@ -301,4 +351,32 @@ function ensureHasParent(node, parent) {
 function ensureNodeHasValues(node, keyValuePairs) {
 	expect(node).toHaveProperty('key', keyValuePairs.key);
 	expect(node).toHaveProperty('value', keyValuePairs.value);
+}
+function generateTreeWithKeyUpto(trials) {
+	const tree = new AvlTree();
+	for (let i = 1; i <= trials; i++)
+		tree.insert({
+			key: i,
+			value: `n${i}`,
+		});
+	return tree;
+}
+
+function removeAndEnsureNodeDoesNotExistAndTreeBalanced(tree, key) {
+	expect(tree.find(key)).not.toBeNull();
+	tree.remove(key);
+	ensureIsBalanced(tree.root());
+	expect(tree.find(key)).toBeNull();
+}
+
+function ensureIsBalanced(node) {
+	const heightDifference = Math.abs(
+		getHeight(node.getLeft()) - getHeight(node.getRight())
+	);
+	expect(heightDifference).toBeLessThanOrEqual(1);
+}
+
+function getHeight(node) {
+	if (!node) return -1;
+	return Math.max(getHeight(node.getLeft()), getHeight(node.getRight())) + 1;
 }

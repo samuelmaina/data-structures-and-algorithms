@@ -144,6 +144,13 @@ describe('avl', () => {
 			beforeEach(() => {
 				tree = new AvlTree();
 			});
+			it('Should be able to get the height', () => {
+				const trials = 100000;
+				tree = generateTreeWithKeyUpto(trials);
+				const treeHeight = tree.root().getHeight();
+				//the worst case height for an avl tree is 1.44 * log(number_of_nodes_in_the_tree)
+				expect(treeHeight).toBeLessThanOrEqual(1.44 * Math.log2(trials));
+			});
 			describe('Should  rotate', () => {
 				describe('should be able to insert and rotate', () => {
 					const left = {

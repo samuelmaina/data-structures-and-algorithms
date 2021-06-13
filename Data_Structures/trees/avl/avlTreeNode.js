@@ -5,12 +5,6 @@ class AvlTreeNode extends Node {
 		super(keyValue);
 		this.height = 1;
 	}
-
-	/**
-	 * Rotate-self left (counter-clockwise)
-	 * @public
-	 * @returns {AvlTreeNode}
-	 */
 	rotateLeft() {
 		const right = this.right; // this.right will be re-assigned
 
@@ -47,11 +41,6 @@ class AvlTreeNode extends Node {
 		return this;
 	}
 
-	/**
-	 * Rotate-self right (clockwise)
-	 * @public
-	 * @returns {AvlTreeNode}
-	 */
 	rotateRight() {
 		const left = this.left; // this.left will be re-assigned
 
@@ -88,11 +77,6 @@ class AvlTreeNode extends Node {
 		return this;
 	}
 
-	/**
-	 * Rotate-self to right after rotating left child to left
-	 * @public
-	 * @returns {AvlTreeNode}
-	 */
 	rotateLeftRight() {
 		if (this.hasLeft()) {
 			this.left.rotateLeft();
@@ -101,11 +85,6 @@ class AvlTreeNode extends Node {
 		return this;
 	}
 
-	/**
-	 * Rotate-self to left after rotating right child to right
-	 * @public
-	 * @returns {AvlTreeNode}
-	 */
 	rotateRightLeft() {
 		if (this.hasRight()) {
 			this.right.rotateRight();
@@ -114,54 +93,26 @@ class AvlTreeNode extends Node {
 		return this;
 	}
 
-	/**
-	 * @public
-	 * @return {number}
-	 */
 	getLeftHeight() {
 		return this.hasLeft() ? this.getLeft().getHeight() : 0;
 	}
-
-	/**
-	 * @public
-	 * @return {number}
-	 */
 	getRightHeight() {
 		return this.hasRight() ? this.getRight().getHeight() : 0;
 	}
 
-	/**
-	 * Updates self height based on the max height of children
-	 * @public
-	 * @returns {AvlTreeNode}
-	 */
 	updateHeight() {
 		this.height = Math.max(this.getLeftHeight(), this.getRightHeight()) + 1;
 		return this;
 	}
 
-	/**
-	 * @public
-	 * @return {number}
-	 */
 	getHeight() {
 		return this.height;
 	}
 
-	/**
-	 * Gets the balance of a node as the diff between left & right heights
-	 * @public
-	 * @return {number}
-	 */
 	getBalance() {
 		return this.getLeftHeight() - this.getRightHeight();
 	}
 
-	/**
-	 * Checks if the node is balanced
-	 * @public
-	 * @return {boolean}
-	 */
 	isBalanced() {
 		const balance = this.getBalance();
 		return balance >= -1 && balance <= 1;

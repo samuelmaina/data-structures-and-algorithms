@@ -238,8 +238,10 @@ describe("avl", () => {
         });
       });
 
-      it("Should  be able to get the tree height(assumption that it is balanced)", () => {
-        const trials = 100000;
+      it.only("Should  be able to get the tree height", () => {
+        //keep the values less than or equal to a milion unless  there
+        //are computational resources.
+        const trials = 1e6;
         tree = generateTreeWithKeysFrom1Upto(trials);
         const treeHeight = tree.root().getHeight();
         //the worst case height for an avl tree is 1.44 * lg(number_of_nodes_in_the_tree)

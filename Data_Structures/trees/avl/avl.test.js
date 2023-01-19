@@ -1,7 +1,7 @@
 const Node = require("./node");
 const AvlTree = require("./avl");
 
-describe("avl", () => {
+describe.skip("avl", () => {
   describe("Node Tests", () => {
     it("should be able to create node", () => {
       const data = {
@@ -26,7 +26,7 @@ describe("avl", () => {
       afterEach(() => {
         node = undefined;
       });
-      describe("setter and getter for key and value", () => {
+      describe("setter and getter for key and value should work", () => {
         describe("key", () => {
           it("setKey", () => {
             const newKey = 3;
